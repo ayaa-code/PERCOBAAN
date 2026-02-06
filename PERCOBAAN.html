@@ -8,13 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <style>
         :root {
-            --wood: #4e2b0a;
-            --paper: #f9f3e5;
-            --gold: #d4af37;
+            --wood: #c41e3a;
+            --paper: #fff9e6;
+            --gold: #ffd700;
         }
 
         body {
-            background-color: #1a0f0a;
+            background-color: #0f1419;
             font-family: 'Georgia', serif;
             color: #3e2723;
             overflow: hidden;
@@ -62,8 +62,18 @@
             box-shadow: 0 5px 0 #2a1705;
         }
 
-        .btn-gold:hover { transform: translateY(-2px); background: #5d3512; }
-        .btn-gold:active { transform: translateY(3px); box-shadow: 0 1px 0 #2a1705; }
+        .btn-gold {
+            background: linear-gradient(135deg, #c41e3a 0%, #e63946 100%);
+            box-shadow: 0 5px 0 #8b1a38;
+        }
+        .btn-gold:hover { 
+            transform: translateY(-2px); 
+            background: linear-gradient(135deg, #e63946 0%, #f1566e 100%);
+        }
+        .btn-gold:active { 
+            transform: translateY(3px); 
+            box-shadow: 0 1px 0 #8b1a38; 
+        }
 
         .status-bar {
             background: var(--paper);
@@ -81,7 +91,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: radial-gradient(circle, #2c1810 0%, #1a0f0a 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             position: relative;
         }
 
@@ -101,8 +111,8 @@
         }
 
         .tile {
-            background: var(--paper);
-            border: 1px solid rgba(139, 69, 19, 0.2);
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3d5 100%);
+            border: 2px solid rgba(196, 30, 58, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -111,6 +121,12 @@
             position: relative;
             padding: 4px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
         }
 
         .tile-header {
@@ -120,11 +136,11 @@
             width: 100%;
         }
 
-        .side-top .tile-header { background: #d32f2f; }
-        .side-right .tile-header { background: #1976d2; }
-        .side-bottom .tile-header { background: #388e3c; }
-        .side-left .tile-header { background: #fbc02d; }
-        .corner-tile { background: #efebe2; }
+        .side-top .tile-header { background: #ff1744; }
+        .side-right .tile-header { background: #2979f3; }
+        .side-bottom .tile-header { background: #00c853; }
+        .side-left .tile-header { background: #ffea00; }
+        .corner-tile { background: linear-gradient(135deg, #f0f7ff 0%, #e3f2fd 100%); border: 2px solid #667eea; }
 
         .player-token {
             position: absolute;
@@ -168,6 +184,15 @@
         .btn-dir:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--wood); }
         .btn-dir span { font-size: 0.7rem; text-transform: uppercase; margin-top: -2px; }
 
+        .btn-dir {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 3px solid #c41e3a;
+            color: #fff;
+        }
+        .btn-dir:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+        }
+
         /* Notification Styling */
         #quiz-feedback-box {
             position: absolute;
@@ -202,10 +227,10 @@
     <!-- 1. LAYAR INPUT NAMA -->
     <div id="screen-name" class="screen-overlay">
         <div class="content-card">
-            <h1 class="text-4xl font-black text-amber-900 mb-6 italic tracking-tighter">RESONANCE ODYSSEY</h1>
-            <p class="text-amber-800 mb-8 font-bold uppercase tracking-widest text-sm">Selamat Datang, Penjelajah!</p>
+            <h1 class="text-4xl font-black text-purple-700 mb-6 italic tracking-tighter">RESONANCE ODYSSEY</h1>
+            <p class="text-purple-600 mb-8 font-bold uppercase tracking-widest text-sm">Selamat Datang, Penjelajah!</p>
             <input type="text" id="input-player-name" placeholder="Ketik namamu di sini..." 
-                   class="w-full p-4 rounded-lg border-4 border-amber-900 mb-8 text-center text-xl font-bold focus:outline-none focus:ring-4 focus:ring-amber-400">
+                   class="w-full p-4 rounded-lg border-4 border-purple-700 mb-8 text-center text-xl font-bold focus:outline-none focus:ring-4 focus:ring-pink-400">
             <button onclick="showRules()" class="btn-gold w-full">START GAME</button>
         </div>
     </div>
@@ -213,8 +238,8 @@
     <!-- 2. LAYAR ATURAN (RULES) -->
     <div id="screen-rules" class="screen-overlay hidden">
         <div class="content-card text-left">
-            <h2 class="text-3xl font-black text-amber-900 mb-6 text-center italic">ATURAN PERMAINAN</h2>
-            <ul class="space-y-4 text-amber-900 font-bold mb-8 list-disc pl-5">
+            <h2 class="text-3xl font-black text-purple-700 mb-6 text-center italic">ATURAN PERMAINAN</h2>
+            <ul class="space-y-4 text-purple-700 font-bold mb-8 list-disc pl-5">
                 <li>Gunakan tombol arah untuk berjalan mengelilingi Nusantara.</li>
                 <li>Setiap wilayah baru akan memberikan tantangan musik daerah tersebut.</li>
                 <li>Jawaban benar menjaga staminamu, jawaban salah akan menguranginya.</li>
@@ -228,7 +253,7 @@
     <!-- 3. LAYAR PILIH KARAKTER -->
     <div id="screen-char" class="screen-overlay hidden">
         <div class="text-center w-full max-w-5xl">
-            <h1 class="text-5xl font-black text-amber-50 mb-4 italic tracking-tighter">PILIH AVATARMU</h1>
+            <h1 class="text-5xl font-black text-yellow-300 mb-4 italic tracking-tighter">PILIH AVATARMU</h1>
             <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-12" id="selection-grid"></div>
         </div>
     </div>
@@ -236,20 +261,20 @@
     <!-- STATUS BAR ATAS -->
     <header id="top-status" class="status-bar hidden">
         <div class="flex items-center gap-6">
-            <div class="flex items-center gap-4 bg-white/40 px-4 py-2 rounded-lg border border-amber-900/10">
+            <div class="flex items-center gap-4 bg-gradient-to-r from-purple-400 to-pink-400 px-4 py-2 rounded-lg border border-purple-600/50">
                 <div id="status-avatar" class="w-10 h-10"></div>
                 <div>
-                    <span id="display-player-name" class="font-black text-xl text-amber-900 block leading-none"></span>
-                    <span class="text-[9px] uppercase tracking-widest text-amber-800 font-bold italic">Pecinta Musik Nusantara</span>
+                    <span id="display-player-name" class="font-black text-xl text-white block leading-none"></span>
+                    <span class="text-[9px] uppercase tracking-widest text-white font-bold italic">Pecinta Musik Nusantara</span>
                 </div>
             </div>
             <div>
-                <span class="text-[9px] font-bold text-amber-800 uppercase tracking-widest block">Lokasi</span>
-                <span id="current-loc" class="font-bold text-base text-amber-900">-</span>
+                <span class="text-[9px] font-bold text-blue-600 uppercase tracking-widest block">Lokasi</span>
+                <span id="current-loc" class="font-bold text-base text-blue-700">-</span>
             </div>
         </div>
         <div class="text-right">
-            <span class="text-[9px] font-bold text-red-800 uppercase tracking-widest block mb-1">Stamina</span>
+            <span class="text-[9px] font-bold text-red-500 uppercase tracking-widest block mb-1">Stamina</span>
             <div id="life-icons" class="text-2xl tracking-tighter"></div>
         </div>
     </header>
@@ -257,9 +282,9 @@
     <!-- PAPAN GAME UTAMA -->
     <main class="game-main">
         <div id="board" class="monopoly-board">
-            <div class="center-area text-center bg-[#e7d8c0] border-4 border-double border-amber-900 p-6" style="grid-area: 2 / 2 / 5 / 5;">
-                <h2 class="text-amber-900 font-black text-2xl italic tracking-tighter leading-tight">RESONANCE<br>ODYSSEY</h2>
-                <div class="mt-4 opacity-50 text-[10px] font-black uppercase tracking-widest">Ekspedisi Musik Nusantara</div>
+            <div class="center-area text-center bg-gradient-to-br from-cyan-300 to-blue-400 border-4 border-double border-purple-700 p-6" style="grid-area: 2 / 2 / 5 / 5;">
+                <h2 class="text-purple-900 font-black text-2xl italic tracking-tighter leading-tight">RESONANCE<br>ODYSSEY</h2>
+                <div class="mt-4 opacity-60 text-[10px] font-black uppercase tracking-widest text-purple-800">Ekspedisi Musik Nusantara</div>
             </div>
             <div id="player-token" class="player-token hidden"></div>
         </div>
@@ -279,8 +304,8 @@
     <!-- KUIS -->
     <div id="quiz-overlay" class="screen-overlay hidden">
         <div class="content-card">
-            <div id="quiz-header" class="mb-4 text-amber-800 font-black text-xs uppercase tracking-widest"></div>
-            <p id="quiz-question" class="text-2xl text-gray-800 font-serif font-bold italic leading-tight mb-8 text-center"></p>
+            <div id="quiz-header" class="mb-4 text-purple-700 font-black text-xs uppercase tracking-widest"></div>
+            <p id="quiz-question" class="text-2xl text-purple-900 font-serif font-bold italic leading-tight mb-8 text-center"></p>
             <div id="quiz-options" class="grid gap-3"></div>
             
             <!-- FEEDBACK BOX -->
@@ -379,9 +404,9 @@
 
             characters.forEach(c => {
                 const card = document.createElement('div');
-                card.className = 'bg-white/10 border-2 border-amber-900/30 p-4 rounded-xl text-center cursor-pointer hover:border-amber-400 hover:bg-amber-400/10 transition-all';
+                card.className = 'bg-gradient-to-br from-purple-500/30 to-pink-500/30 border-2 border-purple-400 p-4 rounded-xl text-center cursor-pointer hover:border-pink-400 hover:bg-pink-400/20 transition-all shadow-lg';
                 card.onclick = () => finalStart(c.id);
-                card.innerHTML = `<div class="w-24 h-28 mx-auto mb-2">${charAssets[c.id]}</div><p class="font-black text-amber-50 uppercase text-xs">${c.name}</p>`;
+                card.innerHTML = `<div class="w-24 h-28 mx-auto mb-2">${charAssets[c.id]}</div><p class="font-black text-yellow-300 uppercase text-xs">${c.name}</p>`;
                 grid.appendChild(card);
             });
         }
@@ -435,9 +460,9 @@
             document.getElementById('life-icons').innerText = "❤️".repeat(state.lives);
             document.getElementById('current-loc').innerText = cityData[state.idx].name;
             
-            document.querySelectorAll('.tile').forEach(t => t.classList.remove('ring-4', 'ring-amber-500', 'z-20'));
+            document.querySelectorAll('.tile').forEach(t => t.classList.remove('ring-4', 'ring-pink-500', 'z-20'));
             const currentTile = document.getElementById(`tile-${state.idx}`);
-            if (currentTile) currentTile.classList.add('ring-4', 'ring-amber-500', 'z-20');
+            if (currentTile) currentTile.classList.add('ring-4', 'ring-pink-500', 'z-20');
         }
 
         function handleMove(dir) {
@@ -495,7 +520,7 @@
             
             state.currentQuiz.a.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "quiz-opt-btn bg-white border-2 border-amber-900/10 hover:border-amber-900 hover:bg-amber-50 p-4 rounded-lg text-left transition-all font-bold text-lg text-amber-950";
+                btn.className = "quiz-opt-btn bg-gradient-to-r from-cyan-200 to-blue-200 border-3 border-purple-600 hover:border-pink-500 hover:from-pink-200 hover:to-purple-200 p-4 rounded-lg text-left transition-all font-bold text-lg text-purple-900 shadow-md";
                 btn.innerText = opt;
                 btn.onclick = () => checkAns(idx === state.currentQuiz.correct);
                 container.appendChild(btn);
@@ -517,15 +542,17 @@
                 ding.triggerAttackRelease("C5", "0.1");
                 icon.innerText = "✅";
                 title.innerText = "BENAR!";
-                title.className = "text-4xl font-black mb-2 text-green-600";
+                title.className = "text-4xl font-black mb-2 text-green-500";
                 message.innerText = "Luar biasa! Pengetahuan musikmu sangat luas.";
+                message.className = "text-purple-700 font-bold px-4";
             } else {
                 buzz.triggerAttackRelease("G2", "0.2");
                 state.lives--;
                 icon.innerText = "❌";
                 title.innerText = "SALAH!";
-                title.className = "text-4xl font-black mb-2 text-red-600";
+                title.className = "text-4xl font-black mb-2 text-red-500";
                 message.innerText = `Jawaban yang benar adalah: ${state.currentQuiz.a[state.currentQuiz.correct]}`;
+                message.className = "text-red-700 font-bold px-4";
                 
                 document.getElementById('board').classList.add('shake');
                 setTimeout(() => document.getElementById('board').classList.remove('shake'), 400);
